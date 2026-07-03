@@ -196,7 +196,11 @@ namespace
         const uint32_t heightHost = read_dds_header(dds.height);
         const uint32_t mipCountHost = std::max(1u, read_dds_header(dds.mipmapCount));
         const uint32_t depthHost = std::max(1u, read_dds_header(dds.depth));
-        const uint32_t arraySizeHost = (dx10) ? read_dds_header(dx10.value().arraySize) : 0u;
+
+        // We need this if we ever support more than 2d textures
+        // const uint32_t arraySizeHost = (dx10) ? read_dds_header(dx10.value().arraySize) : 0u;
+        // header.arraySize = static_cast<uint8_t>(arraySizeHost);
+        // NOTE: since we memset 0, we can just leave this alone.
 
         memset(&header, 0, sizeof(xte::XIVTexHeader));
 
@@ -207,7 +211,6 @@ namespace
         header.depth = write_xiv_header(static_cast<uint16_t>(depthHost));
 
         // When we cast these down, we get 1 byte, which is endian agnostic.
-        header.arraySize = static_cast<uint8_t>(arraySizeHost);
         header.mipLevels.count(static_cast<uint8_t>(mipCountHost));
 
         uint32_t currentOffset = sizeof(xte::XIVTexHeader);
