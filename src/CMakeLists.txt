@@ -14,3 +14,4 @@ target_include_directories(xiv-tex-encode
 )
 
 target_link_libraries(xiv-tex-encode PRIVATE Boost::program_options)
+target_link_options(xiv-tex-encode PRIVATE -s)
