@@ -1,0 +1,39 @@
+# SPDX-License-Identifier: GPL-2.0-or-later
+# Copyright 2025-2026 isaki
+
+cmake_minimum_required(VERSION 4.0.3)
+
+project(
+    XIV-Texture-Encoder
+    VERSION 1.0.0
+    LANGUAGES CXX
+    HOMEPAGE_URL "https://github.com/isaki/XIV-Texture-Encoder")
+
+# Configure C++20
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED On)
+set(CMAKE_CXX_EXTENSIONS On)
+
+# Global Compiler CMake Configuration
+set(CMAKE_POSITION_INDEPENDENT_CODE On)
+
+# Compiler flags
+add_compile_options(-O2 -pipe -Wall -Wextra -Wpedantic -Werror -Wimplicit-fallthrough -Wformat)
+
+# Compiler Specific Flags
+if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+    add_compile_options(-Wtrampolines)
+endif()
+
+# Configure CMAKE
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib")
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib")
+
+# Include Boost
+set(Boost_USE_STATIC_LIBS OFF)
+find_package(Boost REQUIRED COMPONENTS program_options)
+
+# Add the directories
+add_subdirectory(configured_files)
+add_subdirectory(src)
