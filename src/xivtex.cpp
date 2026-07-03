@@ -297,7 +297,7 @@ xte::Texture::Texture(const fs::path& ddsFile) :
         if (read_dds_header(head.ddspf.fourCC) == DDS_DX10)
         {
             dx10.emplace();
-            is.read(reinterpret_cast<char*>(&dx10), sizeof(DDS_HEADER_DXT10));
+            is.read(reinterpret_cast<char*>(&(dx10.value())), sizeof(DDS_HEADER_DXT10));
         }
 
         // We need the rest.
