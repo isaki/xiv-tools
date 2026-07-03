@@ -10,10 +10,12 @@
 #include <type_traits>
 
 #include <fstream>
-#include <endian.h>
 
 #include <algorithm>
 #include <optional>
+
+// Endian support is shimmed for cross OS support
+#include "xivte/endian.hpp"
 
 #include "xivte/dds.hpp"
 #include "xivte/xivtex.hpp"

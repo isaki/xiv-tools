@@ -1,6 +1,15 @@
 # README
 
-A simple tool for converting common DDS formats into FFXIV tex files. This code is designed to work on Linux or within WSL.
+A simple tool for converting common DDS formats into FFXIV tex files.
+
+## Operating System Support
+- Linux
+- macOS
+- Windows under WSL
+
+##TODO
+
+- Full Windows support.
 
 ## Credits:
 
