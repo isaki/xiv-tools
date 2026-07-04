@@ -88,7 +88,7 @@ namespace isaki::xivte
     static_assert(sizeof(XIVMipConfig) == 1);
     static_assert(sizeof(XIVTexHeader) == 80);
 
-    class Texture final
+    class Texture
     {
         public:
             Texture() = delete;
