@@ -102,22 +102,26 @@ int main(int argc, char ** argv)
             return 1;
         }
 
-        const fs::path ddsFile(vm["dds"].as<std::string>());
+        fs::path ddsFile(vm["dds"].as<std::string>());
         if (!fs::exists(ddsFile))
         {
             std::cerr << "Unable to locate " << ddsFile << std::endl;
             return 2;
         }
 
+        ddsFile = fs::canonical(ddsFile);
+
         fs::path texFile;
         if (vm.contains("output-dir"))
         {
-            const fs::path outputDir(vm["output-dir"].as<std::string>());
+            fs::path outputDir(vm["output-dir"].as<std::string>());
             if (!fs::is_directory(outputDir))
             {
                 std::cerr << "--output-dir is not a valid directory" << std::endl;
                 return 3;
             }
+
+            outputDir = fs::canonical(outputDir);
 
             const std::optional o(outputDir);
             texFile = build_tex_file_path(ddsFile, o);
