@@ -39,36 +39,36 @@ namespace isaki::xivte
     #pragma pack(push, 1)
     struct XIVMipConfig
     {
-        public:
-            XIVMipConfig() = default;
-            explicit XIVMipConfig(const uint8_t raw) : m_raw(raw) {};
-            operator uint8_t() const { return m_raw; }
+    public:
+        XIVMipConfig() = default;
+        explicit XIVMipConfig(const uint8_t raw) : m_raw(raw) {};
+        operator uint8_t() const { return m_raw; }
 
-            void count(const uint8_t value)
-            {
-                if (value > 0x7F) {
-                    throw std::runtime_error("Invalid mip count: exceeds 7 bits (max 127)");
-                }
-
-                // Bitwise operations are host-endian agnostic; they always target logical bits
-                m_raw = (m_raw & 0x80) | (value & 0x7F);
+        void count(const uint8_t value)
+        {
+            if (value > 0x7F) {
+                throw std::runtime_error("Invalid mip count: exceeds 7 bits (max 127)");
             }
 
-            uint8_t count() const {
-                return m_raw & 0x7F;
-            }
+            // Bitwise operations are host-endian agnostic; they always target logical bits
+            m_raw = (m_raw & 0x80) | (value & 0x7F);
+        }
 
-            // Layout: Bit 7 represents the flag (0x80)
-            void unknownFlag(bool value) {
-                m_raw = value ? (m_raw | 0x80) : (m_raw & 0x7F);
-            }
+        uint8_t count() const {
+            return m_raw & 0x7F;
+        }
 
-            bool unknownFlag() const {
-                return (m_raw & 0x80) != 0;
-            }
+        // Layout: Bit 7 represents the flag (0x80)
+        void unknownFlag(bool value) {
+            m_raw = value ? (m_raw | 0x80) : (m_raw & 0x7F);
+        }
 
-        private:
-            uint8_t m_raw;
+        bool unknownFlag() const {
+            return (m_raw & 0x80) != 0;
+        }
+
+    private:
+        uint8_t m_raw;
     };
 
     struct XIVTexHeader
@@ -90,25 +90,25 @@ namespace isaki::xivte
 
     class Texture
     {
-        public:
-            Texture() = delete;
-            Texture(const Texture&) = delete;
-            Texture& operator=(const Texture&) = delete;
+    public:
+        Texture() = delete;
+        Texture(const Texture&) = delete;
+        Texture& operator=(const Texture&) = delete;
 
-            ~Texture();
+        ~Texture();
 
-            explicit Texture(const std::filesystem::path& ddsFile);
-            Texture(Texture&& o) noexcept;
-            Texture& operator=(Texture&& o) noexcept;
+        explicit Texture(const std::filesystem::path& ddsFile);
+        Texture(Texture&& o) noexcept;
+        Texture& operator=(Texture&& o) noexcept;
 
-            void save(const std::filesystem::path& texFile) const;
+        void save(const std::filesystem::path& texFile) const;
 
-        private:
-            // Stack Allocated
-            size_t m_dataLength;
-            XIVTexHeader m_xivHeader;
+    private:
+        // Stack Allocated
+        size_t m_dataLength;
+        XIVTexHeader m_xivHeader;
 
-            // "Dangerous" memory access
-            char* m_dds;
+        // "Dangerous" memory access
+        char* m_dds;
     };
 }
