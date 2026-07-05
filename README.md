@@ -7,7 +7,7 @@ A simple tool for converting common DDS formats into FFXIV tex files.
 - macOS
 - Windows under WSL
 
-##TODO
+### TODO
 
 - Full Windows support.
 
