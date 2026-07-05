@@ -36,7 +36,7 @@ namespace isaki::xivte
         BC7 = 0x6432
     };
 
-    #pragma pack(push, 1)
+#pragma pack(push, 1)
     struct XIVMipConfig
     {
     public:
@@ -84,9 +84,7 @@ namespace isaki::xivte
 
         uint32_t offsetToSurface[13];
     };
-    #pragma pack(pop)
-    static_assert(sizeof(XIVMipConfig) == 1);
-    static_assert(sizeof(XIVTexHeader) == 80);
+#pragma pack(pop)
 
     class Texture
     {
@@ -111,4 +109,8 @@ namespace isaki::xivte
         // "Dangerous" memory access
         char* m_dds;
     };
+
+    // Memory size validation
+    static_assert(sizeof(XIVMipConfig) == 1, "XIVMipConfig alignment failure!");
+    static_assert(sizeof(XIVTexHeader) == 80, "XIVTexHeader alignment failure!");
 }
