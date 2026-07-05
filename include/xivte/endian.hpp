@@ -12,10 +12,17 @@
 #   define le32toh(x) OSSwapLittleToHostInt32(x)
 
 #elif defined(_WIN32) || defined(_WIN64)
+#   include <type_traits>
 // Windows Compatibility Mapping (Since Windows is strictly Little Endian)
-#   define htole16(x) (x)
-#   define htole32(x) (x)
-#   define le32toh(x) (x)
+namespace isaki::xivte::internal
+{
+    template<typename X> requires std::is_integral_v<X>
+    inline X win_endian_passthrough_(X val) noexcept { return val; }
+}
+
+#   define htole16(x) isaki::xivte::internal::win_endian_passthrough_<uint16_t>(x)
+#   define htole32(x) isaki::xivte::internal::win_endian_passthrough_<uint32_t>(x)
+#   define le32toh(x) isaki::xivte::internal::win_endian_passthrough_<uint32_t>(x)
 
 #else
 // Linux standard
