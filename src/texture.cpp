@@ -20,6 +20,7 @@
 
 #include "xivte/dds.hpp"
 #include "xivte/xivtex.hpp"
+#include "xivte/texture.hpp"
 
 namespace fs = std::filesystem;
 namespace xte = isaki::xivte;

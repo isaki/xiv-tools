@@ -2,7 +2,7 @@
 # Copyright 2025-2026 isaki
 
 add_executable(xiv-tex-encode
-    xivtex.cpp
+    texture.cpp
     version.cpp
     main.cpp
 )

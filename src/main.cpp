@@ -12,7 +12,7 @@
 #include <boost/program_options.hpp>
 
 #include "xivte/version.hpp"
-#include "xivte/xivtex.hpp"
+#include "xivte/texture.hpp"
 
 namespace po = boost::program_options;
 namespace xte = isaki::xivte;

@@ -5,7 +5,6 @@
 
 #include <cstdint>
 #include <cstddef>
-#include <filesystem>
 #include <stdexcept>
 
 namespace isaki::xivte
@@ -85,30 +84,6 @@ namespace isaki::xivte
         uint32_t offsetToSurface[13];
     };
 #pragma pack(pop)
-
-    class Texture
-    {
-    public:
-        Texture() = delete;
-        Texture(const Texture&) = delete;
-        Texture& operator=(const Texture&) = delete;
-
-        ~Texture();
-
-        explicit Texture(const std::filesystem::path& ddsFile);
-        Texture(Texture&& o) noexcept;
-        Texture& operator=(Texture&& o) noexcept;
-
-        void save(const std::filesystem::path& texFile) const;
-
-    private:
-        // Stack Allocated
-        size_t m_dataLength;
-        XIVTexHeader m_xivHeader;
-
-        // "Dangerous" memory access
-        char* m_dds;
-    };
 
     // Memory size validation
     static_assert(sizeof(XIVMipConfig) == 1, "XIVMipConfig alignment failure!");
