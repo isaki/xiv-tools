@@ -20,9 +20,9 @@ namespace isaki::xivte::internal
     inline X win_endian_passthrough(X val) noexcept { return val; }
 }
 
-#   define htole16(x) isaki::xivte::internal::win_endian_passthrough<uint16_t>(x)
-#   define htole32(x) isaki::xivte::internal::win_endian_passthrough<uint32_t>(x)
-#   define le32toh(x) isaki::xivte::internal::win_endian_passthrough<uint32_t>(x)
+#   define htole16(x) isaki::xivte::internal::win_endian_passthrough<std::uint16_t>(x)
+#   define htole32(x) isaki::xivte::internal::win_endian_passthrough<std::uint32_t>(x)
+#   define le32toh(x) isaki::xivte::internal::win_endian_passthrough<std::uint32_t>(x)
 
 #else
 // Linux standard

@@ -30,35 +30,35 @@ namespace
     // Little Endian, so first in list, is last in numbers.
     // NOTE: This might not be represented this way in memory
     // on a big-endian system, so conversions are required.
-    constexpr uint32_t CHANNEL_0 = 0x000000FF;
-    constexpr uint32_t CHANNEL_2 = 0x00FF0000;
+    constexpr std::uint32_t CHANNEL_0 = 0x000000FF;
+    constexpr std::uint32_t CHANNEL_2 = 0x00FF0000;
 
-    constexpr uint32_t write_xiv_header(const uint32_t headerValue) noexcept
+    constexpr std::uint32_t write_xiv_header(const std::uint32_t headerValue) noexcept
     {
         return htole32(headerValue);
     }
 
-    constexpr uint16_t write_xiv_header(const uint16_t headerValue) noexcept
+    constexpr std::uint16_t write_xiv_header(const std::uint16_t headerValue) noexcept
     {
         return htole16(headerValue);
     }
 
     template<typename T> requires std::is_enum_v<T>
-    constexpr uint32_t write_xiv_header_enum(const T headerValue) noexcept
+    constexpr std::uint32_t write_xiv_header_enum(const T headerValue) noexcept
     {
-        const uint32_t host = static_cast<uint32_t>(headerValue);
+        const std::uint32_t host = static_cast<std::uint32_t>(headerValue);
         return write_xiv_header(host);
     }
 
-    constexpr uint32_t read_dds_header(const uint32_t headerValue) noexcept
+    constexpr std::uint32_t read_dds_header(const std::uint32_t headerValue) noexcept
     {
         return le32toh(headerValue);
     }
 
     template<typename T> requires std::is_enum_v<T>
-    constexpr T read_dds_header_enum(const uint32_t headerValue) noexcept
+    constexpr T read_dds_header_enum(const std::uint32_t headerValue) noexcept
     {
-        const uint32_t host = read_dds_header(headerValue);
+        const std::uint32_t host = read_dds_header(headerValue);
         return static_cast<T>(host);
     }
 
@@ -103,8 +103,8 @@ namespace
     {
         if (read_dds_header(pf.rgbBitCount) == 32)
         {
-            const uint32_t rmask = read_dds_header(pf.rBitMask);
-            const uint32_t bmask = read_dds_header(pf.bBitMask);
+            const std::uint32_t rmask = read_dds_header(pf.rBitMask);
+            const std::uint32_t bmask = read_dds_header(pf.bBitMask);
 
             if (rmask == CHANNEL_2 && bmask == CHANNEL_0)
             {
@@ -119,7 +119,7 @@ namespace
     xte::XIVTexFormat get_texture_format(const xte::DDS_HEADER& h, const std::optional<xte::DDS_HEADER_DXT10>& x) noexcept
     {
         // H will not be null, but x might.
-        const uint32_t fourCC = read_dds_header(h.ddspf.fourCC);
+        const std::uint32_t fourCC = read_dds_header(h.ddspf.fourCC);
 
         xte::XIVTexFormat ret;
         switch(fourCC)
@@ -154,19 +154,19 @@ namespace
     }
 
     // This operates on host endianness!
-    uint32_t getMipSize(size_t mmidx, uint32_t w, uint32_t h, xte::XIVTexFormat format)
+    std::uint32_t getMipSize(std::size_t mmidx, std::uint32_t w, std::uint32_t h, xte::XIVTexFormat format)
     {
-        const uint32_t bpp = 1 << ((static_cast<uint32_t>(format) & xte::BPP_MASK) >> xte::BPP_SHIFT);
-        const uint32_t formatType = (static_cast<uint32_t>(format) & xte::FTYPE_MASK) >> xte::FTYPE_SHIFT;
+        const std::uint32_t bpp = 1 << ((static_cast<std::uint32_t>(format) & xte::BPP_MASK) >> xte::BPP_SHIFT);
+        const std::uint32_t formatType = (static_cast<std::uint32_t>(format) & xte::FTYPE_MASK) >> xte::FTYPE_SHIFT;
 
         w = std::max(1u, w >> mmidx);
         h = std::max(1u, h >> mmidx);
 
-        uint32_t ret;
+        std::uint32_t ret;
         if (formatType == xte::FTYPE_BC57 || formatType == xte::FTYPE_BC123)
         {
-            const uint32_t nbw = std::max(1u, (w + 3) >> 2);
-            const uint32_t nbh = std::max(1u, (h + 3) >> 2);
+            const std::uint32_t nbw = std::max(1u, (w + 3) >> 2);
+            const std::uint32_t nbh = std::max(1u, (h + 3) >> 2);
             ret = (nbw * nbh * bpp) << 1;
         }
         else
@@ -196,42 +196,42 @@ namespace
 
         // Calculations First.
 
-        const uint32_t widthHost = read_dds_header(dds.width);
-        const uint32_t heightHost = read_dds_header(dds.height);
-        const uint32_t mipCountHost = std::max(1u, read_dds_header(dds.mipmapCount));
-        const uint32_t depthHost = std::max(1u, read_dds_header(dds.depth));
+        const std::uint32_t widthHost = read_dds_header(dds.width);
+        const std::uint32_t heightHost = read_dds_header(dds.height);
+        const std::uint32_t mipCountHost = std::max(1u, read_dds_header(dds.mipmapCount));
+        const std::uint32_t depthHost = std::max(1u, read_dds_header(dds.depth));
 
         // We need this if we ever support more than 2d textures
-        // const uint32_t arraySizeHost = (dx10) ? read_dds_header(dx10.value().arraySize) : 0u;
-        // header.arraySize = static_cast<uint8_t>(arraySizeHost);
+        // const std::uint32_t arraySizeHost = (dx10) ? read_dds_header(dx10.value().arraySize) : 0u;
+        // header.arraySize = static_cast<std::uint8_t>(arraySizeHost);
         // NOTE: since we memset 0, we can just leave this alone.
 
         std::memset(&header, 0, sizeof(xte::XIVTexHeader));
 
         header.type = write_xiv_header_enum(xte::XIVTexAttribute::Texture2D);
         header.format = write_xiv_header_enum(format);
-        header.width = write_xiv_header(static_cast<uint16_t>(widthHost));
-        header.height = write_xiv_header(static_cast<uint16_t>(heightHost));
-        header.depth = write_xiv_header(static_cast<uint16_t>(depthHost));
+        header.width = write_xiv_header(static_cast<std::uint16_t>(widthHost));
+        header.height = write_xiv_header(static_cast<std::uint16_t>(heightHost));
+        header.depth = write_xiv_header(static_cast<std::uint16_t>(depthHost));
 
         // When we cast these down, we get 1 byte, which is endian agnostic.
-        header.mipLevels.count(static_cast<uint8_t>(mipCountHost));
+        header.mipLevels.count(static_cast<std::uint8_t>(mipCountHost));
 
-        uint32_t currentOffset = sizeof(xte::XIVTexHeader);
+        std::uint32_t currentOffset = sizeof(xte::XIVTexHeader);
 
         // Since we memset to 0, we know the remaining entries, if any, are zero.
-        const size_t loopCutoff = std::min(sizeof(xte::XIVTexHeader::offsetToSurface) / sizeof(uint32_t), static_cast<size_t>(mipCountHost));
+        const std::size_t loopCutoff = std::min(sizeof(xte::XIVTexHeader::offsetToSurface) / sizeof(std::uint32_t), static_cast<std::size_t>(mipCountHost));
 
-        for (size_t i = 0; i < loopCutoff; ++i)
+        for (std::size_t i = 0; i < loopCutoff; ++i)
         {
             header.offsetToSurface[i] = write_xiv_header(currentOffset);
 
-            const uint32_t levelSize = getMipSize(i, widthHost, heightHost, format);
+            const std::uint32_t levelSize = getMipSize(i, widthHost, heightHost, format);
             currentOffset += levelSize;
         }
 
         // Calculate LoD Offsets
-        uint32_t lod1, lod2;
+        std::uint32_t lod1, lod2;
 
         switch (mipCountHost)
         {
@@ -273,7 +273,7 @@ xte::Texture::Texture(const fs::path& ddsFile) :
 {
     // Do not assign internal state until things are clean
     char* tmp = nullptr;
-    size_t dataLength = 0;
+    std::size_t dataLength = 0;
 
     try
     {
@@ -321,7 +321,7 @@ xte::Texture::Texture(const fs::path& ddsFile) :
 
         // Size of data, dataStart is 0, and dataEnd is 1 past the last byte.
         // Thus, no need to add 1.
-        dataLength = static_cast<size_t>(dataEnd - dataStart);
+        dataLength = static_cast<std::size_t>(dataEnd - dataStart);
         tmp = new char[dataLength];
 
         is.read(tmp, dataLength);

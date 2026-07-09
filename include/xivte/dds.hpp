@@ -16,12 +16,12 @@ namespace isaki::xivte
     // Pulled from M$'s documentation
 
     // These are DDS_PIXELFORMAT.fourCC values
-    inline constexpr uint32_t DDS_DXT1 = 0x31545844;    // BC1
-    inline constexpr uint32_t DDS_DXT5 = 0x35545844;    // BC3
-    inline constexpr uint32_t DDS_DX10 = 0x30315844;    // DX10 (BC5, 7)
+    inline constexpr std::uint32_t DDS_DXT1 = 0x31545844;    // BC1
+    inline constexpr std::uint32_t DDS_DXT5 = 0x35545844;    // BC3
+    inline constexpr std::uint32_t DDS_DX10 = 0x30315844;    // DX10 (BC5, 7)
 
     // DXGI Enum values
-    enum class DXGI_FORMAT : uint32_t
+    enum class DXGI_FORMAT : std::uint32_t
     {
         // 8888
         R8G8B8A8_UNORM = 0x1C,
@@ -41,39 +41,39 @@ namespace isaki::xivte
 
 #pragma pack(push, 1)
     struct DDS_PIXELFORMAT {
-        uint32_t size;
-        uint32_t flags;
-        uint32_t fourCC;
-        uint32_t rgbBitCount;
-        uint32_t rBitMask;
-        uint32_t gBitMask;
-        uint32_t bBitMask;
-        uint32_t aBitMask;
+        std::uint32_t size;
+        std::uint32_t flags;
+        std::uint32_t fourCC;
+        std::uint32_t rgbBitCount;
+        std::uint32_t rBitMask;
+        std::uint32_t gBitMask;
+        std::uint32_t bBitMask;
+        std::uint32_t aBitMask;
     };
 
     struct DDS_HEADER {
-        uint32_t size;
-        uint32_t flags;
-        uint32_t height;
-        uint32_t width;
-        uint32_t pitchOrLinearSize;
-        uint32_t depth;
-        uint32_t mipmapCount;
-        uint32_t reserved1[11];
+        std::uint32_t size;
+        std::uint32_t flags;
+        std::uint32_t height;
+        std::uint32_t width;
+        std::uint32_t pitchOrLinearSize;
+        std::uint32_t depth;
+        std::uint32_t mipmapCount;
+        std::uint32_t reserved1[11];
         DDS_PIXELFORMAT ddspf;
-        uint32_t caps;
-        uint32_t caps2;
-        uint32_t caps3;
-        uint32_t caps4;
-        uint32_t reserved2;
+        std::uint32_t caps;
+        std::uint32_t caps2;
+        std::uint32_t caps3;
+        std::uint32_t caps4;
+        std::uint32_t reserved2;
     };
 
     struct DDS_HEADER_DXT10 {
-        uint32_t dxgiFormat;
-        uint32_t resourceDimension;
-        uint32_t miscFlag;
-        uint32_t arraySize;
-        uint32_t miscFlags2;
+        std::uint32_t dxgiFormat;
+        std::uint32_t resourceDimension;
+        std::uint32_t miscFlag;
+        std::uint32_t arraySize;
+        std::uint32_t miscFlags2;
     };
 #pragma pack(pop)
 }

@@ -26,7 +26,7 @@ namespace isaki::xivte
 
     private:
         // Stack Allocated
-        size_t m_dataLength;
+        std::size_t m_dataLength;
         XIVTexHeader m_xivHeader;
 
         // "Dangerous" memory access

@@ -9,20 +9,20 @@
 
 namespace isaki::xivte
 {
-    inline constexpr uint32_t BPP_MASK = 0xF0;
-    inline constexpr size_t BPP_SHIFT = 0x4;
-    inline constexpr uint32_t FTYPE_MASK = 0XF000;
-    inline constexpr size_t FTYPE_SHIFT = 0xC;
+    inline constexpr std::uint32_t BPP_MASK = 0xF0;
+    inline constexpr std::size_t BPP_SHIFT = 0x4;
+    inline constexpr std::uint32_t FTYPE_MASK = 0XF000;
+    inline constexpr std::size_t FTYPE_SHIFT = 0xC;
 
-    inline constexpr uint32_t FTYPE_BC123 = 0x3;
-    inline constexpr uint32_t FTYPE_BC57 = 0x6;
+    inline constexpr std::uint32_t FTYPE_BC123 = 0x3;
+    inline constexpr std::uint32_t FTYPE_BC57 = 0x6;
 
-    enum class XIVTexAttribute : uint32_t
+    enum class XIVTexAttribute : std::uint32_t
     {
         Texture2D = 0x00800000
     };
 
-    enum class XIVTexFormat : uint32_t {
+    enum class XIVTexFormat : std::uint32_t {
         UNKNOWN = 0xFFFFFFFF,   // -1
 
         // Integer Types
@@ -40,10 +40,10 @@ namespace isaki::xivte
     {
     public:
         XIVMipConfig() = default;
-        explicit XIVMipConfig(const uint8_t raw) : m_raw(raw) {};
-        operator uint8_t() const { return m_raw; }
+        explicit XIVMipConfig(const std::uint8_t raw) : m_raw(raw) {};
+        operator std::uint8_t() const { return m_raw; }
 
-        void count(const uint8_t value)
+        void count(const std::uint8_t value)
         {
             if (value > 0x7F) {
                 throw std::runtime_error("Invalid mip count: exceeds 7 bits (max 127)");
@@ -53,7 +53,7 @@ namespace isaki::xivte
             m_raw = (m_raw & 0x80) | (value & 0x7F);
         }
 
-        uint8_t count() const {
+        std::uint8_t count() const {
             return m_raw & 0x7F;
         }
 
@@ -67,21 +67,21 @@ namespace isaki::xivte
         }
 
     private:
-        uint8_t m_raw;
+        std::uint8_t m_raw;
     };
 
     struct XIVTexHeader
     {
-        uint32_t type;              // XIVTexAttribute
-        uint32_t format;            // XIVTexFormat
-        uint16_t width;
-        uint16_t height;
-        uint16_t depth;
+        std::uint32_t type;              // XIVTexAttribute
+        std::uint32_t format;            // XIVTexFormat
+        std::uint16_t width;
+        std::uint16_t height;
+        std::uint16_t depth;
         XIVMipConfig mipLevels;
-        uint8_t arraySize;
-        uint32_t lodOffset[3];
+        std::uint8_t arraySize;
+        std::uint32_t lodOffset[3];
 
-        uint32_t offsetToSurface[13];
+        std::uint32_t offsetToSurface[13];
     };
 #pragma pack(pop)
 
