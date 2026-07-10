@@ -9,7 +9,7 @@ add_executable(xiv-tex-encode
 
 target_include_directories(xiv-tex-encode
     PRIVATE
-    "${CMAKE_BINARY_DIR}/configured_files/include"
+    "${PROJECT_BINARY_DIR}/configured_files/include"
     "${PROJECT_SOURCE_DIR}/include"
 )
 
