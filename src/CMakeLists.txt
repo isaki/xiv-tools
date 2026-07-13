@@ -1,6 +1,10 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 # Copyright 2025-2026 isaki
 
+# Include Boost
+set(Boost_USE_STATIC_LIBS OFF)
+find_package(Boost REQUIRED COMPONENTS program_options)
+
 add_executable(xiv-tex-encode
     texture.cpp
     version.cpp
