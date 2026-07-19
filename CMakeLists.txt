@@ -18,7 +18,7 @@ set(CMAKE_CXX_EXTENSIONS On)
 set(CMAKE_POSITION_INDEPENDENT_CODE On)
 
 # Compiler flags
-add_compile_options(-O2 -pipe -Wall -Wextra -Wpedantic -Werror -Wimplicit-fallthrough -Wformat)
+add_compile_options(-O3 -march=native -pipe -Wall -Wextra -Wpedantic -Werror -Wimplicit-fallthrough -Wformat)
 
 # Compiler Specific Flags
 if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")

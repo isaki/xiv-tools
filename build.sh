@@ -24,6 +24,13 @@ else
     extra_opts=("-G" "Unix Makefiles")
 fi
 
+# Compiler checks
+which clang > /dev/null 2>&1
+if [ $? -eq 0 ]; then
+    export CC="clang"
+    export CXX="clang++"
+fi
+
 if [ -d "${BUILD_DIR}" ]; then
     rm -rf "${BUILD_DIR}" || exit $?
 fi
