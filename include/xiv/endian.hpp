@@ -25,6 +25,9 @@
 namespace isaki::xiv::internal
 {
     template<typename X> requires std::is_integral_v<X>
+
+    // This exists to work around some strange windows macro edge cases,
+    // the compiler should optimize this away.
     inline X win_endian_passthrough(X val) noexcept { return val; }
 }
 
@@ -68,11 +71,12 @@ namespace isaki::xiv::internal
         // Swap the bits as required
         tmp = byteswap(tmp);
 
-        // Shove the bits back into the float
-        std::memcpy(&val, &tmp, sizeof(X));
+        // Shove the bits back into a float/double
+        X ret;
+        std::memcpy(&ret, &tmp, sizeof(X));
 
         // Return the result
-        return val;
+        return ret;
     }
 
     inline float swap_htole32f(float x) noexcept
