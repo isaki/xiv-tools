@@ -4,25 +4,17 @@
 #include <iostream>
 #include <string_view>
 
-#include <boost/version.hpp>
+#include "xiv_internal/config.hpp"
+#include "xiv/version.hpp"
 
-#include "xivte_internal/config.hpp"
-#include "xivte/version.hpp"
+namespace xiv = isaki::xiv;
 
-namespace xte = isaki::xivte;
-
-namespace
+void xiv::print_version(std::ostream& os, std::string_view name, int boostVersion)
 {
-    //  BOOST_VERSION % 100 is the patch level
-    //  BOOST_VERSION / 100 % 1000 is the minor version
-    //  BOOST_VERSION / 100000 is the major version
-    constexpr int BOOST_VERSION_PATCH = BOOST_VERSION % 100;
-    constexpr int BOOST_VERSION_MINOR = BOOST_VERSION / 100 % 1000;
-    constexpr int BOOST_VERSION_MAJOR = BOOST_VERSION / 100000;
-}
+    const int bvPatch = boostVersion % 100;
+    const int bvMinor = boostVersion / 100 % 100;
+    const int bvMajor = boostVersion / 100000;
 
-void xte::print_version(std::ostream& os, const std::string_view name)
-{
     os << name
         << " ("
         << cmake::project_name
@@ -34,7 +26,7 @@ void xte::print_version(std::ostream& os, const std::string_view name)
     os << "License: GNU GPL version 2 or later <https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html>" << std::endl;
     os << name << " comes with NO WARRANTY, to the extent permitted by law" << std::endl;
 
-    os << "Home page: <" << xte::cmake::project_url << '>' << std::endl;
+    os << "Home page: <" << cmake::project_url << '>' << std::endl;
 
     os << "Compiled with: "
         << cmake::cxx_compiler
@@ -47,10 +39,10 @@ void xte::print_version(std::ostream& os, const std::string_view name)
         << std::endl;
 
     os << "Boost: "
-        << BOOST_VERSION_MAJOR
+        << bvMajor
         << '.'
-        << BOOST_VERSION_MINOR
+        << bvMinor
         << '.'
-        << BOOST_VERSION_PATCH
+        << bvPatch
         << std::endl;
 }

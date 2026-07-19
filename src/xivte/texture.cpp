@@ -17,7 +17,7 @@
 #include <optional>
 
 // Endian support is shimmed for cross OS support
-#include "xivte/endian.hpp"
+#include "xiv/endian.hpp"
 
 #include "xivte/dds.hpp"
 #include "xivte/xivtex.hpp"

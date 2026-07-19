@@ -4,10 +4,10 @@
 cmake_minimum_required(VERSION 4.0.3)
 
 project(
-    XIV-Texture-Encoder
+    XIV-Mod-Tools
     VERSION 1.0.0
     LANGUAGES CXX
-    HOMEPAGE_URL "https://github.com/isaki/xiv-texture-encoder")
+    HOMEPAGE_URL "https://github.com/isaki/xiv-mod-tools")
 
 # Configure C++20
 set(CMAKE_CXX_STANDARD 20)

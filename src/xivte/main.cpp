@@ -9,13 +9,15 @@
 #include <cctype>
 #include <algorithm>
 
+#include <boost/version.hpp>
 #include <boost/program_options.hpp>
 
-#include "xivte/version.hpp"
+#include "xiv/version.hpp"
 #include "xivte/texture.hpp"
 
 namespace po = boost::program_options;
 namespace xte = isaki::xivte;
+namespace x = isaki::xiv;
 namespace fs = std::filesystem;
 
 namespace
@@ -86,7 +88,7 @@ int main(int argc, char ** argv)
         if (vm.contains("version"))
         {
             const std::string name = argv_basename(argv[0]);
-            xte::print_version(std::cout, name);
+            x::print_version(std::cout, name, BOOST_VERSION);
             return 0;
         }
 
