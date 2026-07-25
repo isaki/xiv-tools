@@ -49,10 +49,12 @@ namespace isaki::xiv::internal
 
 namespace isaki::xiv::internal
 {
-    template<typename X>
-    requires std::is_floating_point_v<X>
-    using MatchingInt_t = std::conditional_t<sizeof(X) == sizeof(std::uint32_t), std::uint32_t,
-        std::conditional_t<sizeof(X) == sizeof(std::uint64_t), std::uint64_t, void>>;
+    // Define a concept for valid matching sizes
+    template <typename X>
+    concept SwapSupportedSize = std::is_floating_point_v<X> && (sizeof(X) == sizeof(std::uint32_t) || sizeof(X) == sizeof(std::uint64_t));
+
+    template <SwapSupportedSize X>
+    using MatchingInt_t = std::conditional_t<sizeof(X) == sizeof(std::uint32_t), std::uint32_t, std::uint64_t>;
 
     template<typename F, typename X>
     concept EndianSwap = std::is_floating_point_v<X> && requires(F f, MatchingInt_t<X> val)

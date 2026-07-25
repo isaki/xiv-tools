@@ -3,6 +3,7 @@
 
 add_library(xivCore STATIC
     version.cpp
+    xivio.cpp
 )
 
 target_include_directories(xivCore
