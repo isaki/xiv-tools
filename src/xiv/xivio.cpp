@@ -55,7 +55,7 @@ void xiv::XIVDataReader::close()
     std::ifstream* tmp = dynamic_cast<std::ifstream*>(m_is);
     if (tmp == nullptr)
     {
-        // Either its closed or it can't be closed.
+        // Either it's closed or it can't be closed.
         return;
     }
 
@@ -120,7 +120,7 @@ void xiv::XIVDataWriter::close()
     std::ofstream* tmp = dynamic_cast<std::ofstream*>(m_os);
     if (tmp == nullptr)
     {
-        // Either its closed or it can't be closed.
+        // Either it's closed or it can't be closed.
         return;
     }
 
