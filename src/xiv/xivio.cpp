@@ -1,7 +1,6 @@
 /* SPDX-License-Identifier: GPL-2.0-or-later */
 /* Copyright 2025-2026 isaki */
 
-#include <cstddef>
 #include <filesystem>
 #include <ios>
 #include <fstream>
