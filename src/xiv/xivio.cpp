@@ -3,6 +3,7 @@
 
 #include <cstddef>
 #include <filesystem>
+#include <ios>
 #include <fstream>
 #include <stdexcept>
 
@@ -10,6 +11,12 @@
 
 namespace xiv = isaki::xiv;
 namespace fs = std::filesystem;
+
+namespace
+{
+    constexpr const char* SEEK_IN_CLOSED_STREAM = "Attempt to seek within a closed stream";
+    constexpr const char* TELL_IN_CLOSED_STREAM = "Attempt to tell within a closed stream";
+}
 
 //
 // READER
@@ -39,7 +46,7 @@ xiv::XIVDataReader::XIVDataReader(const fs::path& file) : m_is(nullptr)
     m_is = tmp;
 }
 
-void xiv::XIVDataReader::read(char* buffer, size_t length)
+void xiv::XIVDataReader::read(char* buffer, std::streamsize length)
 {
     if (m_is == nullptr) [[unlikely]]
     {
@@ -76,6 +83,36 @@ void xiv::XIVDataReader::close()
     }
 }
 
+void xiv::XIVDataReader::seekg(std::streampos pos)
+{
+    if (m_is == nullptr) [[unlikely]]
+    {
+        throw std::runtime_error(SEEK_IN_CLOSED_STREAM);
+    }
+
+    m_is->seekg(pos);
+}
+
+void xiv::XIVDataReader::seekg(std::streamoff off, std::ios::seekdir direction)
+{
+    if (m_is == nullptr) [[unlikely]]
+    {
+        throw std::runtime_error(SEEK_IN_CLOSED_STREAM);
+    }
+
+    m_is->seekg(off, direction);
+}
+
+std::streampos xiv::XIVDataReader::tellg()
+{
+    if (m_is == nullptr) [[unlikely]]
+    {
+        throw std::runtime_error(TELL_IN_CLOSED_STREAM);
+    }
+
+    return m_is->tellg();
+}
+
 //
 // WRITER
 //
@@ -104,7 +141,7 @@ xiv::XIVDataWriter::XIVDataWriter(const fs::path& file) : m_os(nullptr)
     m_os = tmp;
 }
 
-void xiv::XIVDataWriter::write(const char* buffer, size_t length)
+void xiv::XIVDataWriter::write(const char* buffer, std::streamsize length)
 {
     if (m_os == nullptr) [[unlikely]]
     {
@@ -139,4 +176,34 @@ void xiv::XIVDataWriter::close()
         delete tmp;
         throw;
     }
+}
+
+void xiv::XIVDataWriter::seekp(std::streampos pos)
+{
+    if (m_os == nullptr) [[unlikely]]
+    {
+        throw std::runtime_error(SEEK_IN_CLOSED_STREAM);
+    }
+
+    m_os->seekp(pos);
+}
+
+void xiv::XIVDataWriter::seekp(std::streamoff off, std::ios::seekdir direction)
+{
+    if (m_os == nullptr) [[unlikely]]
+    {
+        throw std::runtime_error(SEEK_IN_CLOSED_STREAM);
+    }
+
+    m_os->seekp(off, direction);
+}
+
+std::streampos xiv::XIVDataWriter::tellp()
+{
+    if (m_os == nullptr) [[unlikely]]
+    {
+        throw std::runtime_error(TELL_IN_CLOSED_STREAM);
+    }
+
+    return m_os->tellp();
 }

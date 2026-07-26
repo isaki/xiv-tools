@@ -3,8 +3,7 @@
 
 #pragma once
 
-#include <cstdint>
-#include <iosfwd>
+#include <ios>
 #include <filesystem>
 #include <type_traits>
 
@@ -24,9 +23,15 @@ namespace isaki::xiv
         ~XIVDataReader();
         explicit XIVDataReader(const std::filesystem::path& file);
 
-        void read(char* buffer, size_t len);
+        void read(char* buffer, std::streamsize length);
 
         void close();
+
+        void seekg(std::streampos pos);
+
+        void seekg(std::streamoff, std::ios::seekdir direction);
+
+        std::streampos tellg();
 
         template <typename T>
         requires std::is_integral_v<T> || std::is_floating_point_v<T>
@@ -84,9 +89,15 @@ namespace isaki::xiv
         ~XIVDataWriter();
         explicit XIVDataWriter(const std::filesystem::path& file);
 
-        void write(const char* buffer, size_t len);
+        void write(const char* buffer, std::streamsize length);
 
         void close();
+
+        void seekp(std::streampos pos);
+
+        void seekp(std::streamoff, std::ios::seekdir direction);
+
+        std::streampos tellp();
 
         template <typename T>
         requires std::is_integral_v<T> || std::is_floating_point_v<T>
