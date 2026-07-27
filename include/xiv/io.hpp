@@ -7,6 +7,7 @@
 #include <filesystem>
 #include <type_traits>
 
+#include "xiv/iofwd.hpp"
 #include "xiv/endian.hpp"
 
 namespace isaki::xiv

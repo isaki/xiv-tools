@@ -6,7 +6,7 @@
 #include <fstream>
 #include <stdexcept>
 
-#include "xiv/xivio.hpp"
+#include "xiv/io.hpp"
 
 namespace xiv = isaki::xiv;
 namespace fs = std::filesystem;
