@@ -144,6 +144,10 @@ namespace
                 ret = xte::XIVTexFormat::BC3;
                 break;
 
+            case xte::DDS_D3D_BC5U:
+                ret = xte::XIVTexFormat::BC5;
+                break;
+
             case 0:
                 // This can absolutely happen on some DDS files.
                 ret = get_texture_format_zero(h.ddspf);
@@ -195,7 +199,7 @@ namespace
         const xte::XIVTexFormat format = get_texture_format(dds, dx10);
         if (format == xte::XIVTexFormat::UNKNOWN)
         {
-            throw std::runtime_error("Failed to deteremine XIVTexFormat");
+            throw std::runtime_error("Failed to determine XIVTexFormat");
         }
 
 

@@ -16,9 +16,10 @@ namespace isaki::xivte
     // Pulled from M$'s documentation
 
     // These are DDS_PIXELFORMAT.fourCC values
-    inline constexpr std::uint32_t DDS_DXT1 = 0x31545844;    // BC1
-    inline constexpr std::uint32_t DDS_DXT5 = 0x35545844;    // BC3
-    inline constexpr std::uint32_t DDS_DX10 = 0x30315844;    // DX10 (BC5, 7)
+    inline constexpr std::uint32_t DDS_DXT1 = 0x31545844;       // BC1
+    inline constexpr std::uint32_t DDS_DXT5 = 0x35545844;       // BC3
+    inline constexpr std::uint32_t DDS_DX10 = 0x30315844;       // DX10 (BC5, 7)
+    inline constexpr std::uint32_t DDS_D3D_BC5U = 0x55354342;   // NVTT3 BC5_UNORM
 
     // DXGI Enum values
     enum class DXGI_FORMAT : std::uint32_t
